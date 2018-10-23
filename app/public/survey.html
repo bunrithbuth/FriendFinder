@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.css">
+</head>
+<body>
+    <div class="ui segment inverted">
+        <div class="ui statistic grey header">
+            <div class="label" style="color: white !important;">
+            Friend Finder
+            </div>
+            <div class="value">
+            Quiz
+            </div>
+        </div>
+    </div>
+    <h4 class="ui horizontal header divider">
+            <a id="qLabel">What Is Your Name?</a>
+    </h4>
+
+    <div class="ui grid">
+            <div class="ten wide row centered" id="choiceList">
+                <form id="nameSubmit" class="ui form">
+                    <div class="ui huge icon input">
+                        <input type="text" id="nameField" placeholder="Enter Name...">
+                    </div>
+                </form>
+                <!-- <div class="ui bottom attached button" id="btnChoice" onclick="Choices(1)">1</div>
+                <div class="ui bottom attached button" id="btnChoice" onclick="Choices(2)">2</div>
+                <div class="ui bottom attached button" id="btnChoice" onclick="Choices(3)">3</div>
+                <div class="ui bottom attached button" id="btnChoice" onclick="Choices(4)">4</div>
+                <div class="ui bottom attached button" id="btnChoice" onclick="Choices(5)">5</div> -->
+            </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.js"></script>
+
+    <script>
+    const Arr = [
+        'Please Enter Your First Name',
+        'Q1. Question 1',
+        'Q2. Question 2',
+        'Q3. Question 3',
+        'Q4. Question 4',
+        'Q5. Question 5',
+    ]
+
+    let currQ = 0
+    let Name = ''
+    let Answers = []
+    let Image = 'www.example.com'
+
+    //start with the name question
+    document.querySelector('#qLabel').innerHTML = Arr[currQ] 
+
+    $( "#nameSubmit" ).submit(function( event ) {
+    event.preventDefault();
+    Name = document.querySelector('#nameField').value
+
+    //transition grid to questions
+    $('#choiceList').removeClass('row')
+    $('#choiceList').addClass('column')
+
+    //initialize with actual survey questions and choices
+    currQ = 1
+    document.querySelector('#qLabel').innerHTML = Arr[currQ] 
+    document.querySelector('#choiceList').innerHTML = `
+        <div class="ui bottom attached button" id="btnChoice" onclick="Choices(1)">1</div>
+        <div class="ui bottom attached button" id="btnChoice" onclick="Choices(2)">2</div>
+        <div class="ui bottom attached button" id="btnChoice" onclick="Choices(3)">3</div>
+        <div class="ui bottom attached button" id="btnChoice" onclick="Choices(4)">4</div>
+        <div class="ui bottom attached button" id="btnChoice" onclick="Choices(5)">5</div>
+    `
+    });
+
+    //storing answers from questions
+    let Choices = (a) => {
+        Answers.push(a)
+        currQ++ 
+
+        if(currQ === Arr.length) {
+            console.log('sending data...')
+            $.post("/api/friends",
+            {name: Name, photos: Image, score: Answers},
+                function(data) {
+                    console.log('Data:' + data)
+                    document.querySelector('#qLabel').innerHTML = 'Results' 
+                    document.querySelector('#choiceList').innerHTML = `
+                        Name: ${data[0]}
+                        Match Rating: ${data[1]} / 25
+                        Img URL: ${data[2]}
+                    `
+                    });
+        }else{
+            document.querySelector('#qLabel').innerHTML = Arr[currQ] 
+        }
+    }
+    </script>
+</body>
+</html>
