@@ -1,7 +1,7 @@
 var friendsArray = [
     {
       name: "Ahmed",
-      photos: "ahmed@example.com",
+      photos: "https://sdl-stickershop.line.naver.jp/products/0/0/3/6044/iphone/main_animation@2x.png?__=20161019",
       score: 
             [
             5,
@@ -18,7 +18,7 @@ var friendsArray = [
     },
     {
         name: "Bunrith",
-        photos: "bunrith@example.com",
+        photos: "https://sdl-stickershop.line.naver.jp/products/0/0/3/6044/iphone/main_animation@2x.png?__=20161019",
         score: 
               [
               3,

@@ -37,6 +37,27 @@
                 <div class="ui bottom attached button" id="btnChoice" onclick="Choices(5)">5</div> -->
             </div>
     </div>
+
+    <div class="ui modal">
+        <div class="header">
+            Here is Your Match!
+        </div>
+        <div class="image content">
+          <div class="ui medium image" id="imgModal">
+        
+          </div>
+          <div class="description">
+            <div class="ui header" id="nameModal"></div>
+            <p id="matchRating"></p>
+          </div>
+        </div>
+        <div class="actions">
+          <div class="ui black deny button">
+            Close
+          </div>
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.js"></script>
 
@@ -86,7 +107,7 @@
         if(currQ === Arr.length) {
             console.log('sending data...')
             $.post("/api/friends",
-            {name: Name, photos: Image, score: Answers},
+            {name: Name, photos: 'https://sdl-stickershop.line.naver.jp/products/0/0/3/6044/iphone/main_animation@2x.png?__=20161019', score: Answers},
                 function(data) {
                     console.log('Data:' + data)
                     document.querySelector('#qLabel').innerHTML = 'Results' 
@@ -95,8 +116,24 @@
                         Match Rating: ${data[1]} / 25
                         Img URL: ${data[2]}
                     `
+
+                    //modal starts here
+                    document.querySelector('#imgModal').innerHTML = `
+                        <img src="${data[2]}">
+                    `
+
+                    document.querySelector('#nameModal').innerHTML = `
+                        ${data[0]}
+                    `
+
+                    document.querySelector('#matchRating').innerHTML = `
+                        Your aptitude with this person is ${data[1]} / 25
+                    `
+
+                    $('.ui.modal').modal('show')
                     });
-        }else{
+                    
+        }else if(currQ < Arr.length){
             document.querySelector('#qLabel').innerHTML = Arr[currQ] 
         }
     }
